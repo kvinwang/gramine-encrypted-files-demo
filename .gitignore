@@ -1,0 +1,8 @@
+/target
+/OUTPUT
+/result-*
+/Cargo.lock
+demo.manifest
+demo.manifest.sgx
+demo.sig
+sealed/

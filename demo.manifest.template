@@ -1,0 +1,25 @@
+loader.entrypoint = "file:{{ gramine.libos }}"
+libos.entrypoint = "{{ self_exe }}"
+loader.log_level = "{{ log_level }}"
+
+loader.env.LD_LIBRARY_PATH = "/lib:{{ arch_libdir }}"
+
+loader.env.MALLOC_ARENA_MAX = "1"
+
+fs.mounts = [
+  { path = "/lib", uri = "file:{{ gramine.runtimedir() }}" },
+  { path = "{{ arch_libdir }}", uri = "file:{{ arch_libdir }}" },
+  { path = "/sealed", uri = "file:sealed", type = "encrypted", key_name = "_sgx_mrenclave" },
+]
+
+sgx.trusted_files = [
+  "file:{{ gramine.libos }}",
+  "file:{{ self_exe }}",
+  "file:{{ gramine.runtimedir() }}/",
+  "file:{{ arch_libdir }}/",
+]
+
+sgx.seal_key.flags_mask = "0x0000000000000000"
+sgx.seal_key.xfrm_mask  = "0x0000000000000000"
+sgx.seal_key.misc_mask  = "0x00000000"
+
